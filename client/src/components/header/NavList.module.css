@@ -1,0 +1,35 @@
+.nav {
+    width: 100%;
+}
+
+.ul {
+    margin: 0px auto;
+    padding: 0px;
+    display: flex;
+    flex-flow: row wrap;
+    width: 330px;
+    justify-content: space-between;
+}
+
+.li {
+    position: relative;
+}
+
+.a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.4rem;
+}
+
+.a:hover{
+    color: gray;
+    cursor: progress;
+}
+
+.special-img{
+    position: absolute;
+    top: -8px;
+    right: -15px;
+    width: 50px;
+    transform: rotate(13deg);
+}
