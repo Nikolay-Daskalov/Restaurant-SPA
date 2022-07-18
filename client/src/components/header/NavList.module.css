@@ -10,26 +10,3 @@
     width: 330px;
     justify-content: space-between;
 }
-
-.li {
-    position: relative;
-}
-
-.a{
-    text-decoration: none;
-    color: black;
-    font-size: 1.4rem;
-}
-
-.a:hover{
-    color: gray;
-    cursor: progress;
-}
-
-.special-img{
-    position: absolute;
-    top: -8px;
-    right: -15px;
-    width: 50px;
-    transform: rotate(13deg);
-}

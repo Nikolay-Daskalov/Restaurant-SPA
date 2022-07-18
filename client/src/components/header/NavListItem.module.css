@@ -1,0 +1,26 @@
+.li {
+    position: relative;
+}
+
+.a-active {
+    border-bottom: 1px solid black;
+}
+
+.a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.4rem;
+    padding-bottom: 6px;
+}
+
+.a:hover {
+    color: gray;
+}
+
+.special-img {
+    position: absolute;
+    top: -8px;
+    right: -15px;
+    width: 50px;
+    transform: rotate(13deg);
+}

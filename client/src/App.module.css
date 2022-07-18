@@ -1,5 +1,6 @@
-.App{
+.App {
     padding-top: 30px;
     position: relative;
     min-height: 100vh;
+    height: fit-content;
 }
