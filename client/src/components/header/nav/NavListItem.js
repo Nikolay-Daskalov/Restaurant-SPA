@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import style from './NavListItem.module.css';
-import specialMeals from './special-logo-cropped.png';
+import specialMeals from './special-logo.png';
 
 export function NavListItem(props) {
     const isImgItemPresent = () => {
