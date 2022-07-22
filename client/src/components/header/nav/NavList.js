@@ -1,7 +1,11 @@
 import style from './NavList.module.css';
 import { NavListItem } from './NavListItem';
+import { userService } from '../../../services/userService';
+import { useState } from 'react';
 
 export function NavList() {
+    const [isAuth, setIsAuth] = useState(userService.isUserAuthenticated());
+
     return (
         <nav className={style.nav}>
             <ul className={style.ul}>
@@ -12,7 +16,15 @@ export function NavList() {
                     text={'Meals'}
                     containsImg={true}
                 />
-                <NavListItem href={'/login'} text={'Login'} />
+                {isAuth ? (
+                    <NavListItem
+                        href={'/'}
+                        text={'Logout'}
+                        logoutStateHandler={setIsAuth}
+                    />
+                ) : (
+                    <NavListItem href={'/login'} text={'Login'} />
+                )}
             </ul>
         </nav>
     );
