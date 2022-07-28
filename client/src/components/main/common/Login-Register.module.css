@@ -62,20 +62,20 @@
     color: rgb(100, 100, 100);
 }
 
-.register {
+.register-login {
     text-align: center;
     margin-top: 12px;
     font-size: 0.9rem;
 }
 
-.register-link {
+.register-login-link {
     text-decoration: none;
     display: inline-block;
     color: black;
     padding-bottom: 2px;
 }
 
-.register-link:hover {
+.register-login-link:hover {
     border-bottom: 1px solid black;
     padding-bottom: 1px;
 }

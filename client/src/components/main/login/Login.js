@@ -27,46 +27,44 @@ export function Login() {
     };
 
     return (
-        <section>
-            <div className={style['form-wrapper']}>
-                <h2 className={style.title}>Login</h2>
-                <form className={style.form} onSubmit={submitHandler}>
-                    <div className={style.container}>
-                        <label className={style.label} htmlFor="username">
-                            Username
-                        </label>
-                        <input
-                            className={style.input}
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={loginData.username}
-                            onChange={updateDataHandler}
-                        />
-                    </div>
-                    <div className={style.container}>
-                        <label className={style.label} htmlFor="password">
-                            Password
-                        </label>
-                        <input
-                            className={style.input}
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={loginData.password}
-                            onChange={updateDataHandler}
-                        />
-                    </div>
-                    <button className={style.submitBtn} type="submit">
-                        Login
-                    </button>
-                </form>
-                <p className={style.register}>
-                    <Link className={style['register-link']} to="/register">
-                        Register
-                    </Link>
-                </p>
-            </div>
-        </section>
+        <div className={style['form-wrapper']}>
+            <h2 className={style.title}>Login</h2>
+            <form className={style.form} onSubmit={submitHandler}>
+                <div className={style.container}>
+                    <label className={style.label} htmlFor="username">
+                        Username
+                    </label>
+                    <input
+                        className={style.input}
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={loginData.username}
+                        onChange={updateDataHandler}
+                    />
+                </div>
+                <div className={style.container}>
+                    <label className={style.label} htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        className={style.input}
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={loginData.password}
+                        onChange={updateDataHandler}
+                    />
+                </div>
+                <button className={style.submitBtn} type="submit">
+                    Login
+                </button>
+            </form>
+            <p className={style['register-login']}>
+                <Link className={style['register-login-link']} to="/register">
+                    Register
+                </Link>
+            </p>
+        </div>
     );
 }
