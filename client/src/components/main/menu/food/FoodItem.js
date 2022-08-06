@@ -1,48 +1,50 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import style from './FoodItem.module.css';
 import { Rating } from "./Rating";
 
-const addClassesToLinks = (currentLink) => {
-    let linkStyle = `${style.card__link}`;
+export function FoodItem(props) {
 
-    switch (currentLink) {
-        case 'details':
-            linkStyle += ` ${style['card__link--details']}`;
-            break;
-        case 'edit':
-            linkStyle += ` ${style['card__link--edit']}`;
-            break;
-        case 'delete':
-            linkStyle += ` ${style['card__link--delete']}`;
-            break;
-        default:
-            break;
+    const location = useLocation();
+
+    const buildRating = () => {
+        if (props.rating === 0) {
+            return (
+                <>
+                    <Rating />
+                    <Rating />
+                    <Rating />
+                    <Rating />
+                    <Rating />
+                </>
+            );
+        }
+
+        let rating = [];
+        for (let i = 1; i <= 5; i++) {
+            if (props.rating >= i) {
+                rating.push(
+                    <Rating key={i} isFilled />
+                );
+            } else {
+                rating.push(
+                    <Rating key={i} />
+                );
+            }
+        }
+
+        return rating;
     }
 
-    return linkStyle;
-}
-
-const createImgUrl = (salad) => {
-    return `https://res.cloudinary.com/dee2hxl5o/image/upload/Restaurant/Menu/Meal/${salad.toLowerCase()}-salata.jpg`;
-};
-
-export function FoodItem(props) {//TODO: add props from fetch parent
     return (
         <li>
             <div className={style.card}>
-                <img className={style.card__img} src={createImgUrl(props.salad)} alt={`${props.salad} salata`} />
-                <h3 className={style.card__title}>Title</h3>
-                <div className={style.card__rating__container}>
-                    <Rating isFilled />
-                    <Rating isFilled />
-                    <Rating isFilled />
-                    <Rating />
-                    <Rating />
-                </div>
+                <img className={style.card__img} src={props.imgUrl} alt={`${props.name}`} />
+                <h3 className={style.card__title}>{props.name.split(' ')[0]}</h3>
+                <ul className={style.card__rating__container}>
+                    {buildRating()}
+                </ul>
                 <div className={style.card__link__container}>
-                    <Link className={addClassesToLinks('details')} to='/'>Details</Link>
-                    <Link className={addClassesToLinks('edit')} to='/'>Edit</Link>
-                    <Link className={addClassesToLinks('delete')} to='/'>Delete</Link>
+                    <Link className={style.card__link} to={`${location.pathname}/${props.id}`}>Details</Link>
                 </div>
             </div>
         </li >

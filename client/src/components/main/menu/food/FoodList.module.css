@@ -7,6 +7,13 @@
     gap: 20px;
 }
 
+.loading{
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.9rem;
+}
+
 @media only screen and (max-width: 630px) {
     .container {
         grid-template-columns: repeat(2, 1fr);

@@ -7,8 +7,8 @@ export function Rating(props) {
     }
 
     return (
-        <span className={style.rating__holder}>
+        <li className={style.rating__holder}>
             <img className={style.rating__img} src={imgUrl(props.isFilled)} alt="" />
-        </span>
+        </li>
     );
 }

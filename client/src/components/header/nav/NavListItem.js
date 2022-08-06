@@ -1,15 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import style from './NavListItem.module.css';
-import specialMeals from './special-logo.png';
 import { userService } from '../../../services/userService';
 
 export function NavListItem(props) {
-    const isImgItemPresent = () => {
-        if (props.containsImg) {
+    const isSpecialMealImgPresent = () => {
+        if (props.isSpecialMeal) {
             return (
                 <img
                     className={style['special-img']}
-                    src={specialMeals}
+                    src='https://res.cloudinary.com/dee2hxl5o/image/upload/v1659653851/Restaurant/Static/special-meals-logo.png'
                     alt="Special Meals"
                 />
             );
@@ -30,7 +29,7 @@ export function NavListItem(props) {
         props.logoutStateHandler(userService.isUserAuthenticated());
     };
 
-    if (props?.logoutStateHandler) {
+    if (props.logoutStateHandler) {
         return (
             <li className={style.li}>
                 <NavLink
@@ -49,7 +48,7 @@ export function NavListItem(props) {
             <NavLink className={isActiveHandler} to={props.href}>
                 {props.text}
             </NavLink>
-            {isImgItemPresent()}
+            {isSpecialMealImgPresent()}
         </li>
     );
 }

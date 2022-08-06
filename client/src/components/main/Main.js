@@ -4,6 +4,7 @@ import { Login } from './login/Login';
 
 import style from './Main.module.css';
 import { MenuCategoryList } from './menu/category/MenuCategoryList';
+import { FoodDetail } from './menu/food/FoodDetail';
 import { FoodList } from './menu/food/FoodList';
 import { Register } from './register/Register';
 
@@ -14,8 +15,9 @@ export function Main() {
                 <Routes>
                     <Route path="" element={<Home />} />
                     <Route path="menu">
-                        <Route path="" element={<MenuCategoryList />} />
+                        <Route index element={<MenuCategoryList />} />
                         <Route path=":category" element={<FoodList />} />
+                        <Route path=":category/:id" element={<FoodDetail />} />
                     </Route>
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />

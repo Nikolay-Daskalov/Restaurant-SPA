@@ -12,7 +12,9 @@
 
 .card__title{
     margin: 1px 5px;
-    font-size: 1.35rem;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 .card__rating__container{
@@ -31,29 +33,17 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: 1rem;
-    display: flex;
-    width: 155px;
-    justify-content: space-between;
+    width: fit-content;
 }
 
 .card__link{
-    padding: 2px 0px;
+    padding: 5px 0px;
     text-decoration: none;
     font-size: 1.05rem;
     color: black;
 }
 
-.card__link--details:hover{
+.card__link:hover{
     border-bottom: 2px solid rgb(0,0, 230);
-    padding-bottom: 0px;
-}
-
-.card__link--edit:hover{
-    border-bottom: 2px solid rgb(0, 190, 0);
-    padding-bottom: 0px;
-}
-
-.card__link--delete:hover{
-    border-bottom: 2px solid rgb(255, 0, 0);
-    padding-bottom: 0px;
+    padding-bottom: 3px;
 }

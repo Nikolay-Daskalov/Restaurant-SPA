@@ -1,0 +1,31 @@
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+        database-platform: org.hibernate.dialect.MySQL8Dialect
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE}?${DATABASE_QSP}
+        username: ${DATABASE_ROOT_USER}
+        password: ${DATABASE_ROOT_PASS}
+logging:
+    level:
+        blog: WARN
+        org:
+            hibernate:
+                SQL: debug
+                type:
+                    descriptor: TRACE
+            nodeValue: WARN
+database:
+    admin-username: ${DATABASE_ADMIN_USER}
+    admin-password: ${DATABASE_ADMIN_PASS}
+cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
+server:
+    port: ${APP_PORT}

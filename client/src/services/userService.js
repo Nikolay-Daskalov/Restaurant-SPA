@@ -11,8 +11,13 @@ function deleteToken() {
     localStorage.removeItem('access_token');
 }
 
+function getToken() {
+    return localStorage.getItem('access_token');
+}
+
 export const userService = {
     isUserAuthenticated,
+    getToken,
     setToken,
     deleteToken,
 };

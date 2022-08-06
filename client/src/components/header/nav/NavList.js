@@ -1,10 +1,9 @@
 import style from './NavList.module.css';
 import { NavListItem } from './NavListItem';
-import { userService } from '../../../services/userService';
-import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth';
 
 export function NavList() {
-    const [isAuth, setIsAuth] = useState(userService.isUserAuthenticated());
+    const [isAuth, setIsAuth] = useAuth();
 
     return (
         <nav className={style.nav}>
@@ -14,7 +13,7 @@ export function NavList() {
                 <NavListItem
                     href={'/special-meals'}
                     text={'Meals'}
-                    containsImg={true}
+                    isSpecialMeal
                 />
                 {isAuth ? (
                     <NavListItem
