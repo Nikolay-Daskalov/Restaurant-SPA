@@ -13,13 +13,11 @@ public class CLRImpl implements CommandLineRunner {
     private final FoodService foodService;
     private final UserService userService;
     private final RoleService roleService;
-    private final RatingService ratingService;
 
-    public CLRImpl(FoodService foodService, UserService userService, RoleService roleService, RatingService ratingService) {
+    public CLRImpl(FoodService foodService, UserService userService, RoleService roleService) {
         this.foodService = foodService;
         this.userService = userService;
         this.roleService = roleService;
-        this.ratingService = ratingService;
     }
 
     @Override
@@ -27,6 +25,5 @@ public class CLRImpl implements CommandLineRunner {
         roleService.seed();
         userService.seed();
         foodService.seed();
-        ratingService.seed();
     }
 }

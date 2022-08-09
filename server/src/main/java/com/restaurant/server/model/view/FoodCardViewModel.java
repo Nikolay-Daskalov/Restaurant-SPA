@@ -10,7 +10,7 @@ public class FoodCardViewModel {
     private Long id;
     private String name;
     private String imgUrl;
-    private Integer rating;
+    private RatingViewModel rating;
 
     public FoodCardViewModel setId(Long id) {
         this.id = id;
@@ -27,7 +27,7 @@ public class FoodCardViewModel {
         return this;
     }
 
-    public FoodCardViewModel setRating(Integer rating) {
+    public FoodCardViewModel setRating(RatingViewModel rating) {
         this.rating = rating;
         return this;
     }

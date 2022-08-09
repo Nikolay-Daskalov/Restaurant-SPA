@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 public class FoodEntity extends BaseEntity {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 30)
     private String name;
     @Column(nullable = false)
     private String imgUrl;
@@ -29,7 +29,7 @@ public class FoodEntity extends BaseEntity {
     private String recipe;
     @ManyToOne(optional = false)
     private UserEntity author;
-    @OneToMany(mappedBy = "food")
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<RatingEntity> ratings;
 
     public FoodEntity setName(String name) {
@@ -59,6 +59,11 @@ public class FoodEntity extends BaseEntity {
 
     public FoodEntity setAuthor(UserEntity author) {
         this.author = author;
+        return this;
+    }
+
+    public FoodEntity setRatings(Set<RatingEntity> ratings) {
+        this.ratings = ratings;
         return this;
     }
 }

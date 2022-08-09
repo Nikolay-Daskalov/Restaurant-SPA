@@ -29,3 +29,6 @@ cloudinary:
     api-secret: ${CLOUDINARY_API_SECRET}
 server:
     port: ${APP_PORT}
+    error:
+        include-stacktrace: never
+

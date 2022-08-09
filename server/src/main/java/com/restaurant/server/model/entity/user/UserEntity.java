@@ -16,9 +16,9 @@ import java.util.Set;
 @Getter
 public class UserEntity extends BaseEntity {
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(unique = true, nullable = false, length = 30)
     private String username;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 60)
     private String password;
     @ManyToMany
     private Set<RoleEntity> roles;

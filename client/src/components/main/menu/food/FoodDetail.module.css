@@ -60,12 +60,25 @@
     margin-right: auto;
 }
 
+.author{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
 .ratingHolder{
-    display: flex;
+    display: inline-flex;
     width: fit-content;
     column-gap: 3px;
     margin-left: 15px;
     margin-bottom: 3px;
+}
+
+.peopleCount{
+    vertical-align: top;
+    margin-left: 5px;
 }
 
 .reviewTip{
@@ -104,4 +117,12 @@
 .submitBtn:hover{
     border-bottom: 2px solid rgb(0,0, 230);
     padding-bottom: 1px;
+}
+
+.reviewSend{
+    margin-top: 5px;
+    text-align: center;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.5em;
 }

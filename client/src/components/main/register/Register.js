@@ -1,8 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import style from '../common/Login-Register.module.css';
 
 export function Register() {
+
+    const navigate = useNavigate();
+
+    const [registerError, setRegisterError] = useState(false);
+    const [serverDown, setServerDown] = useState(false);
+    const [invalidInput, setInvalidInput] = useState(false);
+    const [userExist, setUserExist] = useState(false);
+
+    const [registerData, setRegisterData] = useState({
+        username: '',
+        password: '',
+        repeatPassword: '',
+    });
+
     const submitHandler = (e) => {
         e.preventDefault();
 
@@ -13,14 +27,49 @@ export function Register() {
             ['repeat-password']: repeatPassword,
         } = Object.fromEntries(new FormData(e.currentTarget));
 
-        console.log(username, password, repeatPassword);
-    };
+        if (!username || !password || !repeatPassword) {
+            setInvalidInput(true);
+            return;
+        }
 
-    const [registerData, setRegisterData] = useState({
-        username: '',
-        password: '',
-        repeatPassword: '',
-    });
+        if (password !== repeatPassword) {
+            setInvalidInput(true);
+            return;
+        }
+
+        if (username.length > 30 ||
+            password.length > 30 ||
+            repeatPassword.length > 30) {
+            setInvalidInput(true);
+            return;
+        }
+
+        const url = 'http://localhost:8080/api/users/register';
+        fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ username, password, repeatPassword })
+        })
+            .then(res => {
+                setRegisterError(false);
+                setServerDown(false);
+                setUserExist(false);
+                if (res.status === 409) {
+                    setUserExist(true);
+                    return;
+                }
+                if (!res.ok) {
+                    setRegisterError(true);
+                    return;
+                }
+
+                navigate('/login');
+            })
+            .catch(err => setServerDown(true));
+    };
 
     const updateDataHandler = (e) => {
         const currentTarget = e.currentTarget;
@@ -36,9 +85,24 @@ export function Register() {
             };
         });
     };
+
     return (
         <div className={style['form-wrapper']}>
             <h2 className={style.title}>Register</h2>
+            <p className={style.info}>Fieds cannot be empty</p>
+            <p className={style.info}>Field length: max 30</p>
+            {registerError
+                ? <p className={style.err}>Wrong Credentials</p>
+                : undefined}
+            {invalidInput
+                ? <p className={style.err}>Invalid Credentials</p>
+                : undefined}
+            {serverDown
+                ? <p className={style.err}>Server not responding</p>
+                : undefined}
+            {userExist
+                ? <p className={style.err}>Username exists</p>
+                : undefined}
             <form className={style.form} onSubmit={submitHandler}>
                 <div className={style.container}>
                     <label className={style.label} htmlFor="username">

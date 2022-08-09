@@ -1,21 +1,29 @@
 package com.restaurant.server.config;
 
 import com.cloudinary.Cloudinary;
+import com.restaurant.server.model.entity.food.FoodEntity;
 import com.restaurant.server.model.service.food.FoodServiceModel;
 import com.restaurant.server.model.service.rating.RatingServiceModel;
 import com.restaurant.server.model.view.FoodCardViewModel;
+import com.restaurant.server.model.view.FoodDetailViewModel;
+import com.restaurant.server.model.view.RatingViewModel;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Configuration
-public class GeneralConfig {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class GeneralConfig extends GlobalMethodSecurityConfiguration {
 
     private final CloudinaryConfig config;
 
@@ -24,7 +32,7 @@ public class GeneralConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -38,7 +46,7 @@ public class GeneralConfig {
     }
 
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
         modelMapper.addConverter(new AbstractConverter<FoodServiceModel, FoodCardViewModel>() {
@@ -54,19 +62,35 @@ public class GeneralConfig {
                 return foodCard;
             }
         });
+        modelMapper.addConverter(new AbstractConverter<FoodServiceModel, FoodDetailViewModel>() {
+            @Override
+            protected FoodDetailViewModel convert(FoodServiceModel source) {
+                FoodDetailViewModel foodDetailViewModel = new FoodDetailViewModel();
+                foodDetailViewModel
+                        .setId(source.getId())
+                        .setAuthor(source.getAuthor().getUsername())
+                        .setIngredients(Arrays.stream(source.getIngredients().split("\\s+\\|\\s+")).collect(Collectors.toList()))
+                        .setRecipe(source.getRecipe())
+                        .setName(source.getName())
+                        .setImgUrl(source.getImgUrl())
+                        .setRating(getFoodRating(source.getRatings()));
+
+                return foodDetailViewModel;
+            }
+        });
 
         return modelMapper;
     }
 
-    private Integer getFoodRating(Set<RatingServiceModel> ratings){
-        int size = ratings.size();
+    private RatingViewModel getFoodRating(Set<RatingServiceModel> ratings) {
+        int peopleRated = ratings.size();
 
-        if (size == 0){
-            return 0;
+        if (peopleRated == 0) {
+            return new RatingViewModel(0, 0L);
         }
 
         int totalRatings = ratings.stream().map(RatingServiceModel::getRating).reduce(0, Integer::sum);
 
-        return totalRatings / size;
+        return new RatingViewModel(totalRatings / peopleRated, (long) peopleRated);
     }
 }

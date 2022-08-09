@@ -15,9 +15,24 @@ function getToken() {
     return localStorage.getItem('access_token');
 }
 
+function getUsername() {
+    return localStorage.getItem('username');
+}
+
+function setUsername(username) {
+    localStorage.setItem('username', username);
+}
+
+function deleteUsername() {
+    localStorage.removeItem('username');
+}
+
 export const userService = {
     isUserAuthenticated,
     getToken,
     setToken,
     deleteToken,
+    getUsername,
+    setUsername,
+    deleteUsername
 };

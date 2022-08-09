@@ -18,13 +18,17 @@
 }
 
 .card__rating__container{
-    width: 90%;
+    width: fit-content;
     margin-top: 8px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
+    margin-left: 8px;
+    display: inline-flex;
     justify-content: flex-start;
     column-gap: 3px;
+}
+
+.peopleCount{
+    vertical-align: text-bottom;
+    margin-left: 5px;
 }
 
 .card__link__container{

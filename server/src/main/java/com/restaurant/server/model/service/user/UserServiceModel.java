@@ -11,6 +11,7 @@ public class UserServiceModel {
 
     private Long id;
     private String username;
+    private String password;
     private Set<RoleServiceModel> roles;
 
     public UserServiceModel setId(Long id) {
@@ -20,6 +21,11 @@ public class UserServiceModel {
 
     public UserServiceModel setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public UserServiceModel setPassword(String password) {
+        this.password = password;
         return this;
     }
 

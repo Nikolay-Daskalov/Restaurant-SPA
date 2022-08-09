@@ -6,9 +6,14 @@ import com.restaurant.server.repository.base.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FoodRepository extends BaseRepository<FoodEntity> {
 
     List<FoodEntity> findAllByFoodType(FoodTypeEnum foodType);
+
+    Optional<FoodEntity> findByIdAndFoodType(Long id, FoodTypeEnum foodType);
+
+    boolean existsByIdAndFoodType(Long id, FoodTypeEnum foodType);
 }

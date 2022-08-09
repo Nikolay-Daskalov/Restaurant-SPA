@@ -1,9 +1,13 @@
 package com.restaurant.server.service.user;
 
-import com.restaurant.server.model.entity.user.UserEntity;
+import com.restaurant.server.model.service.user.UserServiceModel;
 import com.restaurant.server.service.seed.Seed;
 
 public interface UserService extends Seed {
 
-    UserEntity findUserByName(String username);
+    UserServiceModel findUserByName(String username);
+
+    void register(UserServiceModel user);
+
+    boolean isExistUser(String username);
 }

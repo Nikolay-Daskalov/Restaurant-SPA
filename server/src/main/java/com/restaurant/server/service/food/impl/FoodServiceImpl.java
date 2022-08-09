@@ -10,7 +10,9 @@ import com.restaurant.server.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    @Transactional
     public void seed() {
         if (this.foodRepository.count() > 0) {
             return;
@@ -55,7 +58,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     private void initFood(String name, FoodTypeEnum foodType, String ingredients, String recipe, String imgUrl) {
-        UserEntity userByName = userService.findUserByName("Admin");
+        UserEntity userByName = this.modelMapper.map(userService.findUserByName("Admin"), UserEntity.class);
 
         FoodEntity foodEntity = new FoodEntity();
         foodEntity
@@ -80,5 +83,15 @@ public class FoodServiceImpl implements FoodService {
                 .stream()
                 .map(food -> this.modelMapper.map(food, FoodServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public FoodServiceModel findByIdAndType(Long id, FoodTypeEnum foodType) {
+        return this.foodRepository.findByIdAndFoodType(id, foodType).map(food -> this.modelMapper.map(food, FoodServiceModel.class)).orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public boolean isExistByIdAndType(Long id, FoodTypeEnum foodType) {
+        return this.foodRepository.existsByIdAndFoodType(id, foodType);
     }
 }

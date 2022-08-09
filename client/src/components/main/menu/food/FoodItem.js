@@ -7,7 +7,7 @@ export function FoodItem(props) {
     const location = useLocation();
 
     const buildRating = () => {
-        if (props.rating === 0) {
+        if (props.rating.stars === 0) {
             return (
                 <>
                     <Rating />
@@ -21,7 +21,7 @@ export function FoodItem(props) {
 
         let rating = [];
         for (let i = 1; i <= 5; i++) {
-            if (props.rating >= i) {
+            if (props.rating.stars >= i) {
                 rating.push(
                     <Rating key={i} isFilled />
                 );
@@ -43,6 +43,7 @@ export function FoodItem(props) {
                 <ul className={style.card__rating__container}>
                     {buildRating()}
                 </ul>
+                <span className={style.peopleCount}>{'(' + props.rating.peopleCount + ')'}</span>
                 <div className={style.card__link__container}>
                     <Link className={style.card__link} to={`${location.pathname}/${props.id}`}>Details</Link>
                 </div>

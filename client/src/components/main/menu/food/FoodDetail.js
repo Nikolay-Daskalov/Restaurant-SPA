@@ -1,105 +1,169 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFetch } from "../../../../hooks/useFetch";
+import { userService } from "../../../../services/userService";
 import style from './FoodDetail.module.css';
 import { Rating } from "./Rating";
 
 export function FoodDetail() {
 
+    const navigate = useNavigate();
     const { category, id } = useParams();
+    const [isReviewed, setIsReviewed] = useState(false);
+    const [alreadyReviewed, setAlreadyReviewed] = useState(false);
 
-    // const url = `http://localhost:8080/api/food/${category}/${id}`;
-    // const httpMethod = 'GET';
-    // const food = useFetch(url, httpMethod);
+    const url = `http://localhost:8080/api/food/${category}/${id}`;
+    const httpMethod = 'GET';
+    const food = useFetch(url, httpMethod);
 
-    // if (food === null) {
-    //     return (
-    //         <h1 className={style.loading}>...Loading</h1>
-    //     );
-    // }
+    if (food === null) {
+        return (
+            <h1 className={style.loading}>...Loading</h1>
+        );
+    }
+
+    const renderRating = (rating) => {
+        const stars = rating.stars;
+        const ratings = [];
+        for (let i = 1; i <= 5; i++) {
+            if (stars >= i) {
+                ratings.push(<Rating key={i} isFilled />);
+                continue;
+            }
+
+            ratings.push(<Rating key={i} />);
+        }
+
+        return ratings;
+    };
+
+    const submitHandler = (e) => {
+        const currentTarget = e.currentTarget;
+        e.preventDefault();
+
+        const stars = Object.fromEntries(new FormData(currentTarget));
+        const url = `http://localhost:8080/api/food/${category}/${id}/ratings`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${userService.getToken()}`
+            },
+            body: JSON.stringify(stars)
+        })
+            .then(res => {
+                if (res.status === 403) {
+                    userService.deleteToken();
+                    navigate('/login');
+                }
+
+                if (res.status === 409) {
+                    setAlreadyReviewed(true);
+                }
+
+                setIsReviewed(true);
+            })
+            .catch(err => console.log(err));
+    };
+
+    const showReviews = () => {
+        if (!isReviewed) {
+            return (
+                <div className={style.detailsSection}>
+                    <h2 className={style.detailsHeading}>Add Review?</h2>
+                    <form onSubmit={submitHandler}>
+                        <div className={style.inputContainer}>
+                            <input type="radio" id="one" defaultValue="1" name="stars" />
+                            <label htmlFor="one">
+                                <ul className={style.reviewList}>
+                                    <Rating isFilled />
+                                </ul>
+                            </label>
+                        </div>
+                        <div className={style.inputContainer}>
+                            <input type="radio" id="two" defaultValue="2" name="stars" />
+                            <label htmlFor="two">
+                                <ul className={style.reviewList}>
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                </ul>
+                            </label>
+                        </div>
+                        <div className={style.inputContainer}>
+                            <input type="radio" id="three" defaultValue="3" name="stars" defaultChecked />
+                            <label htmlFor="three">
+                                <ul className={style.reviewList}>
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                </ul>
+                            </label>
+                        </div>
+                        <div className={style.inputContainer}>
+                            <input type="radio" id="four" defaultValue="4" name="stars" />
+                            <label htmlFor="four">
+                                <ul className={style.reviewList}>
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                </ul>
+                            </label>
+                        </div>
+                        <div className={style.inputContainer}>
+                            <input type="radio" id="five" defaultValue="5" name="stars" />
+                            <label htmlFor="five">
+                                <ul className={style.reviewList}>
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                    <Rating isFilled />
+                                </ul>
+                            </label>
+                        </div>
+                        <button onClick={(e) => e.currentTarget.textContent = '...Submiting'} className={style.submitBtn} type="submit">Review</button>
+                    </form>
+                </div>
+            );
+        } else if (alreadyReviewed) {
+            return (
+                <p className={style.reviewSend}>Already reviewed!</p>
+            );
+        } else {
+            return (
+                <p className={style.reviewSend}>Thank you!</p>
+            );
+        }
+    }
 
     return (
         <div className={style.container}>
-            <img className={style.img} src="https://res.cloudinary.com/dee2hxl5o/image/upload/v1659715745/Restaurant/Menu/Meal/Salad/green-salad.jpg" alt="" />
-            <h1 className={style.title}>Shopska salad</h1>
+            <img className={style.img} src={food.imgUrl} alt={food.name} />
+            <h1 className={style.title}>{food.name}</h1>
             <div className={style.detailsSection}>
                 <h2 className={style.detailsHeading}>Ingredients:</h2>
                 <ul className={style.ingredientsHolder}>
-                    <li>tomatoes - 2 pieces</li>
-                    <li>vinegar</li>
-                    <li>salt</li>
-                    <li>iceburg lettuce</li>
+                    {food.ingredients.map((ingredient, i) => <li key={i}>{ingredient}</li>)}
                 </ul>
             </div>
             <div className={style.detailsSection}>
                 <h2 className={style.detailsHeading}>Recipe:</h2>
-                <p className={style.recipe}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus corrupti doloremque qui, itaque odio sit facilis dicta error magnam ab minus quasi sapiente iure, perferendis reprehenderit omnis molestias ea excepturi?</p>
+                <p className={style.recipe}>{food.recipe}</p>
+            </div>
+            <div className={style.detailsSection}>
+                <h2 className={style.detailsHeading}>Author:</h2>
+                <p className={style.author}>{food.author}</p>
             </div>
             <div className={style.detailsSection}>
                 <h2 className={style.detailsHeading}>Rating:</h2>
                 <ul className={style.ratingHolder}>
-                    <Rating isFilled />
-                    <Rating />
-                    <Rating />
-                    <Rating />
-                    <Rating />
+                    {renderRating(food.rating)}
                 </ul>
+                <span className={style.peopleCount}>{'(' + food.rating.peopleCount + ')'}</span>
             </div>
-            <div className={style.detailsSection}>
-                <h2 className={style.detailsHeading}>Add Review?</h2>
-                <form>
-                    <div className={style.inputContainer}>
-                        <input type="radio" id="one" defaultValue="1" name="stars" />
-                        <label htmlFor="one">
-                            <ul className={style.reviewList}>
-                                <Rating isFilled />
-                            </ul>
-                        </label>
-                    </div>
-                    <div className={style.inputContainer}>
-                        <input type="radio" id="two" defaultValue="2" name="stars" />
-                        <label htmlFor="two">
-                            <ul className={style.reviewList}>
-                                <Rating isFilled />
-                                <Rating isFilled />
-                            </ul>
-                        </label>
-                    </div>
-                    <div className={style.inputContainer}>
-                        <input type="radio" id="three" defaultValue="3" name="stars" />
-                        <label htmlFor="three">
-                            <ul className={style.reviewList}>
-                                <Rating isFilled />
-                                <Rating isFilled />
-                                <Rating isFilled />
-                            </ul>
-                        </label>
-                    </div>
-                    <div className={style.inputContainer}>
-                        <input type="radio" id="four" defaultValue="4" name="stars" />
-                        <label htmlFor="four">
-                            <ul className={style.reviewList}>
-                                <Rating isFilled />
-                                <Rating isFilled />
-                                <Rating isFilled />
-                                <Rating isFilled />
-                            </ul>
-                        </label>
-                    </div>
-                    <div className={style.inputContainer}>
-                        <input type="radio" id="five" defaultValue="5" name="stars" />
-                        <label htmlFor="five">
-                            <ul className={style.reviewList}>
-                                <Rating isFilled />
-                                <Rating isFilled />
-                                <Rating isFilled />
-                                <Rating isFilled />
-                                <Rating isFilled />
-                            </ul>
-                        </label>
-                    </div>
-                    <button className={style.submitBtn} type="submit">Review</button>
-                </form>
-            </div>
+            {showReviews()}
         </div >
     );
 }

@@ -1,9 +1,11 @@
 import style from './NavList.module.css';
 import { NavListItem } from './NavListItem';
-import { useAuth } from '../../../hooks/useAuth';
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 export function NavList() {
-    const [isAuth, setIsAuth] = useAuth();
+
+    const user = useContext(AuthContext);
 
     return (
         <nav className={style.nav}>
@@ -15,12 +17,13 @@ export function NavList() {
                     text={'Meals'}
                     isSpecialMeal
                 />
-                {isAuth ? (
-                    <NavListItem
-                        href={'/'}
-                        text={'Logout'}
-                        logoutStateHandler={setIsAuth}
-                    />
+                {user.isAuth ? (
+                    <>
+                        <NavListItem
+                            href={'/account'}
+                            text={'Profile'}
+                        />
+                    </>
                 ) : (
                     <NavListItem href={'/login'} text={'Login'} />
                 )}

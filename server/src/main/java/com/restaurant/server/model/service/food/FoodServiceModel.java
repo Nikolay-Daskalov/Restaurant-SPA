@@ -16,6 +16,8 @@ public class FoodServiceModel {
     private String name;
     private String imgUrl;
     private FoodTypeEnum foodType;
+    private String ingredients;
+    private String recipe;
     private UserServiceModel author;
     private Set<RatingServiceModel> ratings;
 
@@ -36,6 +38,16 @@ public class FoodServiceModel {
 
     public FoodServiceModel setFoodType(FoodTypeEnum foodType) {
         this.foodType = foodType;
+        return this;
+    }
+
+    public FoodServiceModel setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+        return this;
+    }
+
+    public FoodServiceModel setRecipe(String recipe) {
+        this.recipe = recipe;
         return this;
     }
 
