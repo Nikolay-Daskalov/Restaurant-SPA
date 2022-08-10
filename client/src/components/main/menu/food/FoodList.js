@@ -18,6 +18,12 @@ export function FoodList() {
         );
     }
 
+    if (food.length === 0) {
+        return (
+            <h1 className={style.loading}>No Meals</h1>
+        );
+    }
+
     return (
         <ul className={style.container}>
             {food.map((item, i) =>

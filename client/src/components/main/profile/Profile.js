@@ -39,7 +39,7 @@ export function Profile() {
                     <button onClick={getAllMealsHandler} className={`${style.link} ${style.linkBlue}`} type="button">Get all Meals</button>
                 </li>
                 <li>
-                    <button className={`${style.link} ${style.linkBlue}`} type="button">Create Meal</button>
+                    <Link to='/account/meal/create' className={`${style.link} ${style.linkBlue}`}>Create Meal</Link>
                 </li>
                 <li>
                     <Link to='/' className={`${style.link} ${style.linkRed}`}

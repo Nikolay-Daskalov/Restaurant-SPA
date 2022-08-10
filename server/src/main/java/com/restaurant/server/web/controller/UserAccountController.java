@@ -82,4 +82,17 @@ public class UserAccountController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/create/meal")
+    public ResponseEntity<?> createMeal(@Valid @RequestBody FoodBindingModel food,
+                                        BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        this.foodService.createMeal(this.modelMapper.map(food, FoodServiceModel.class), (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        return ResponseEntity.ok().build();
+    }
 }

@@ -24,4 +24,6 @@ public interface FoodService extends Seed {
     FoodServiceModel findByIdAndUser(Long id, String username);
 
     void updateMeal(Long foodId, FoodServiceModel foodServiceModel);
+
+    void createMeal(FoodServiceModel foodServiceModel, String username);
 }

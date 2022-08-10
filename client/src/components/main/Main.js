@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { PrivateGuard } from '../../guards/PrivateGuard';
+import { CreateMeal } from './create/CreateMeal';
 import { FoodEdit } from './edit/FoodEdit';
 import { Home } from './home/Home';
 import { Login } from './login/Login';
@@ -27,6 +28,7 @@ export function Main() {
                     <Route path="account/*" element={<PrivateGuard />}>
                         <Route path='meal/:id/edit' element={<FoodEdit />} />
                         <Route path='*' element={<Profile />} />
+                        <Route path='meal/create' element={<CreateMeal />} />
                     </Route>
                 </Routes>
             </section>

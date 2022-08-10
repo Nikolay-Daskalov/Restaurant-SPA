@@ -141,4 +141,19 @@ public class FoodServiceImpl implements FoodService {
                 .setFoodType(foodServiceModel.getFoodType())
                 .setImgUrl(foodServiceModel.getImgUrl());
     }
+
+    @Override
+    public void createMeal(FoodServiceModel foodServiceModel, String username) {
+        UserEntity user = this.modelMapper.map(this.userService.findUserByName(username), UserEntity.class);
+        FoodEntity foodEntity = new FoodEntity();
+        foodEntity
+                .setName(foodServiceModel.getName())
+                .setAuthor(user)
+                .setFoodType(foodServiceModel.getFoodType())
+                .setIngredients(foodServiceModel.getIngredients())
+                .setRecipe(foodServiceModel.getRecipe())
+                .setImgUrl(foodServiceModel.getImgUrl());
+
+        this.foodRepository.save(foodEntity);
+    }
 }

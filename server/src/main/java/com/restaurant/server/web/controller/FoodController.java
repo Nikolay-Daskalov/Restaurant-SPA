@@ -116,7 +116,7 @@ public class FoodController {
             case "soup":
                 return FoodTypeEnum.SOUP;
             case "desserts":
-                return FoodTypeEnum.DESSERTS;
+                return FoodTypeEnum.DESSERT;
             default:
                 return null;
         }

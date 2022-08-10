@@ -1,12 +1,10 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useFetch } from "../../../hooks/useFetch";
-import { userService } from "../../../services/userService";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { userService } from '../../../services/userService';
 import style from '../common/Login-Register.module.css';
 
-export function FoodEdit() {
+export function CreateMeal() {
 
-    const { id } = useParams();
     const naviagate = useNavigate();
 
     const valuesChangeHandler = (e) => {
@@ -42,8 +40,8 @@ export function FoodEdit() {
             }
         }
 
-        fetch(`http://localhost:8080/api/account/meals/${id}`, {
-            method: 'PUT',
+        fetch('http://localhost:8080/api/account/create/meal', {
+            method: 'POST',
             mode: 'cors',
             headers: {
                 'Content-type': 'application/json',
@@ -59,9 +57,6 @@ export function FoodEdit() {
             .catch(err => console.log(err));
     };
 
-
-    const food = useFetch(`http://localhost:8080/api/account/meals/${id}`, 'GET', null, true);
-
     const [values, setValues] = useState({
         name: '',
         imgUrl: '',
@@ -70,13 +65,9 @@ export function FoodEdit() {
         recipe: '',
     });
 
-    if (food && !values.name) {
-        setValues(food);
-    }
-
     return (
         <div className={style['form-wrapper']}>
-            <h2 className={style.title}>Edit Meal</h2>
+            <h2 className={style.title}>Create Meal</h2>
             <p className={style.info}>Fieds cannot be empty</p>
             <p className={style.info}>Name length: max 30</p>
             {!isValidInputs
@@ -102,7 +93,7 @@ export function FoodEdit() {
                     </label>
                     <input
                         className={style.input}
-                        type="password"
+                        type="text"
                         id="imgUrl"
                         name="imgUrl"
                         value={values.imgUrl}
@@ -149,7 +140,7 @@ export function FoodEdit() {
                     />
                 </div>
                 <button className={style.submitBtn} type="submit">
-                    Update
+                    Create
                 </button>
             </form>
         </div>
