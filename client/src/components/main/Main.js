@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { PrivateGuard } from '../../guards/PrivateGuard';
+import { FoodEdit } from './edit/FoodEdit';
 import { Home } from './home/Home';
 import { Login } from './login/Login';
 
@@ -23,13 +24,10 @@ export function Main() {
                     </Route>
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
-                    <Route path="account"
-                        element={
-                            <PrivateGuard>
-                                <Profile />
-                            </PrivateGuard>
-                        }
-                    />
+                    <Route path="account/*" element={<PrivateGuard />}>
+                        <Route path='meal/:id/edit' element={<FoodEdit />} />
+                        <Route path='*' element={<Profile />} />
+                    </Route>
                 </Routes>
             </section>
         </main>

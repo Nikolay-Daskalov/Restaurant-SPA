@@ -16,4 +16,12 @@ public interface FoodService extends Seed {
     FoodServiceModel findByIdAndType(Long id, FoodTypeEnum foodType);
 
     boolean isExistByIdAndType(Long id, FoodTypeEnum foodType);
+
+    List<FoodServiceModel> getAllByUser(String username);
+
+    boolean deleteById(Long id, String username);
+
+    FoodServiceModel findByIdAndUser(Long id, String username);
+
+    void updateMeal(Long foodId, FoodServiceModel foodServiceModel);
 }

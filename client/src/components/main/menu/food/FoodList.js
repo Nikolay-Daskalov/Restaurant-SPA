@@ -20,7 +20,14 @@ export function FoodList() {
 
     return (
         <ul className={style.container}>
-            {food.map((item, i) => <FoodItem key={i} id={item.id} name={item.name} imgUrl={item.imgUrl} rating={item.rating} />)}
+            {food.map((item, i) =>
+                <FoodItem
+                    key={i} id={item.id}
+                    name={item.name}
+                    imgUrl={item.imgUrl}
+                    rating={item.rating}
+                />)
+            }
         </ul>
     );
 }

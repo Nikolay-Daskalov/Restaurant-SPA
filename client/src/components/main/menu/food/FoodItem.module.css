@@ -45,9 +45,32 @@
     text-decoration: none;
     font-size: 1.05rem;
     color: black;
+    border: none;
+    background-color: transparent;
+    display: inline-block;
 }
 
 .card__link:hover{
     border-bottom: 2px solid rgb(0,0, 230);
     padding-bottom: 3px;
+}
+
+.card__link--edit{
+    margin-right: 10px;
+}
+
+.card__link--edit:hover{
+    border-bottom: 3px solid rgb(0, 160, 0);
+    padding-bottom: 2px;
+
+}
+
+.card__link--delete{
+    cursor: pointer;
+}
+
+.card__link--delete:hover{
+    border-bottom: 3px solid rgb(255, 0, 0);
+    padding-bottom: 2px;
+    
 }

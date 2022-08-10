@@ -94,4 +94,51 @@ public class FoodServiceImpl implements FoodService {
     public boolean isExistByIdAndType(Long id, FoodTypeEnum foodType) {
         return this.foodRepository.existsByIdAndFoodType(id, foodType);
     }
+
+    @Override
+    public List<FoodServiceModel> getAllByUser(String username) {
+        UserEntity user = this.modelMapper.map(this.userService.findUserByName(username), UserEntity.class);
+
+        return this.foodRepository.findAllByAuthor(user).stream().map(foodEntity -> this.modelMapper.map(foodEntity, FoodServiceModel.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean deleteById(Long id, String username) {
+        UserEntity user = this.modelMapper.map(this.userService.findUserByName(username), UserEntity.class);
+
+        boolean isExist = this.foodRepository.existsByIdAndAuthor(id,user);
+
+        if (!isExist){
+            return false;
+        }
+
+        this.foodRepository.deleteById(id);
+
+        return true;
+    }
+
+    @Override
+    public FoodServiceModel findByIdAndUser(Long id, String username) {
+        UserEntity user = this.modelMapper.map(this.userService.findUserByName(username), UserEntity.class);
+
+        boolean isExist = this.foodRepository.existsByIdAndAuthor(id,user);
+
+        if (!isExist){
+            return null;
+        }
+
+        return this.modelMapper.map(this.foodRepository.findById(id).get(), FoodServiceModel.class);
+    }
+
+    @Override
+    @Transactional
+    public void updateMeal(Long foodId, FoodServiceModel foodServiceModel) {
+        FoodEntity foodEntity = this.foodRepository.findById(foodId).get();
+        foodEntity
+                .setName(foodServiceModel.getName())
+                .setRecipe(foodServiceModel.getRecipe())
+                .setIngredients(foodServiceModel.getIngredients())
+                .setFoodType(foodServiceModel.getFoodType())
+                .setImgUrl(foodServiceModel.getImgUrl());
+    }
 }

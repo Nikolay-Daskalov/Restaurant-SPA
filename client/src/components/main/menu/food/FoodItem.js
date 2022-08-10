@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { userService } from "../../../../services/userService";
 import style from './FoodItem.module.css';
 import { Rating } from "./Rating";
 
@@ -45,7 +46,51 @@ export function FoodItem(props) {
                 </ul>
                 <span className={style.peopleCount}>{'(' + props.rating.peopleCount + ')'}</span>
                 <div className={style.card__link__container}>
-                    <Link className={style.card__link} to={`${location.pathname}/${props.id}`}>Details</Link>
+                    {!props.isAuthor
+                        ? <Link
+                            className={style.card__link}
+                            to={`${location.pathname}/${props.id}`}
+                        >
+                            Details
+                        </Link>
+                        : undefined
+                    }
+                    {props.isAuthor
+                        ? <Link
+                            className={`${style.card__link} ${style['card__link--edit']}`}
+                            to={`${location.pathname}/meal/${props.id}/edit`}
+                        >
+                            Edit
+                        </Link>
+                        : undefined
+                    }
+                    {props.isAuthor
+                        ? <button
+                            type="button"
+                            className={`${style.card__link} ${style['card__link--delete']}`}
+                            onClick={(e) => {
+                                const currentTarget = e.currentTarget;
+                                fetch(`http://localhost:8080/api/account/meals/${props.id}`, {
+                                    method: 'DELETE',
+                                    mode: 'cors',
+                                    headers: {
+                                        'Content-type': 'application/json',
+                                        'Authorization': `Bearer ${userService.getToken()}`
+                                    }
+                                })
+                                    .then(res => {
+                                        if (res.ok) {
+                                            currentTarget.parentElement.innerHTML = <p>Deleted</p>;
+                                        }
+                                    })
+                                    .catch(err => console.log(err));
+                            }}
+                        >
+                            Delete
+                        </button>
+                        : undefined
+                    }
+
                 </div>
             </div>
         </li >
