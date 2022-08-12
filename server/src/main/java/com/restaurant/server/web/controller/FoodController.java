@@ -113,8 +113,6 @@ public class FoodController {
                 return FoodTypeEnum.PIZZA;
             case "pasta":
                 return FoodTypeEnum.PASTA;
-            case "soup":
-                return FoodTypeEnum.SOUP;
             case "desserts":
                 return FoodTypeEnum.DESSERT;
             default:

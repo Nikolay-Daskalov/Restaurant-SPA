@@ -1,16 +1,6 @@
 import { MenuCategoryItem } from './MenuCategoryListItem';
+import { menuCategories } from '../../../../util/menuCategory';
 import style from './MenuCategoryList.module.css';
-
-const createCategory = (category, route) => ({ category, route });
-
-const menuCategories = [
-    createCategory('Salad', 'salads'),
-    createCategory('Burger', 'burgers'),
-    createCategory('Pizza', 'pizza'),
-    createCategory('Pasta', 'pasta'),
-    createCategory('Soup', 'soup'),
-    createCategory('Dessert', 'desserts')
-];
 
 export function MenuCategoryList() {
     return (

@@ -12,11 +12,11 @@ export function NavList() {
             <ul className={style.ul}>
                 <NavListItem href={'/'} text={'Home'} />
                 <NavListItem href={'/menu'} text={'Menu'} />
-                <NavListItem
+                {/* <NavListItem
                     href={'/special-meals'}
                     text={'Meals'}
                     isSpecialMeal
-                />
+                /> */}
                 {user.isAuth ? (
                     <>
                         <NavListItem

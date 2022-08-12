@@ -1,16 +1,29 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useFetch } from "../../../../hooks/useFetch";
 import { FoodItem } from "./FoodItem";
+import { menuCategories } from '../../../../util/menuCategory';
 import style from './FoodList.module.css';
 
 export function FoodList() {
 
     const { category } = useParams();
 
+    let isCategoryValid = false;
+    for (const categ of menuCategories) {
+        if (categ.route === category) {
+            isCategoryValid = true;
+            break;
+        }
+    }
+
     const url = `http://localhost:8080/api/food/${category}`;
     const httpMethod = 'GET';
 
     const food = useFetch(url, httpMethod);
+
+    if (!isCategoryValid) {
+        return <Navigate to='/error' />
+    }
 
     if (food === null) {
         return (
