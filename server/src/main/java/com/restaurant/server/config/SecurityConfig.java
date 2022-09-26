@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -20,11 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, ObjectMapper objectMapper) {
+    public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, ObjectMapper objectMapper, AuthenticationEntryPoint authenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.objectMapper = objectMapper;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -47,7 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .addFilterAfter(new CustomAuthenticationFilter(authenticationManager(), this.objectMapper), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new JwtFilter(), CustomAuthenticationFilter.class)//TODO: exception handling for 401 authenticationEntryPoint Impl
+                .addFilterAfter(new JwtFilter(), CustomAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(this.authenticationEntryPoint)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll();
     }

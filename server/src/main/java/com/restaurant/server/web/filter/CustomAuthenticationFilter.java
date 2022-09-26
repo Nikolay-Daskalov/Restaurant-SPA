@@ -22,6 +22,8 @@ import java.io.IOException;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private static final String ALL_ORIGINS = "*";
+
     private final AuthenticationManager authenticationManager;
     private final ObjectMapper objectMapper;
 
@@ -56,12 +58,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getOutputStream().print(this.objectMapper.writeValueAsString(new JwtViewModel(userDetails.getUsername(), accessToken)));
-        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ALL_ORIGINS);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ALL_ORIGINS);
         super.unsuccessfulAuthentication(request, response, failed);
     }
 }

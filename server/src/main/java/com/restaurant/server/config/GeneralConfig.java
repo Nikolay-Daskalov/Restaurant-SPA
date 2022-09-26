@@ -1,7 +1,6 @@
 package com.restaurant.server.config;
 
 import com.cloudinary.Cloudinary;
-import com.restaurant.server.model.entity.food.FoodEntity;
 import com.restaurant.server.model.service.food.FoodServiceModel;
 import com.restaurant.server.model.service.rating.RatingServiceModel;
 import com.restaurant.server.model.view.FoodCardViewModel;
@@ -11,6 +10,8 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
