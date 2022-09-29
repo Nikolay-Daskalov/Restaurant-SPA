@@ -1,4 +1,4 @@
-package com.restaurant.server.exception;
+package com.restaurant.server.exception.handling;
 
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;

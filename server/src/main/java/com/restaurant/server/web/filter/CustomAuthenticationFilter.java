@@ -41,8 +41,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             throw new AuthenticationServiceException("Request method is not POST");
         }
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String usernameParameter = "username";
+        String passwordParameter = "password";
+
+        String username = request.getParameter(usernameParameter);
+        String password = request.getParameter(passwordParameter);
         username = username == null ? "" : username;
         password = password == null ? "" : password;
 
@@ -64,6 +67,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ALL_ORIGINS);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         super.unsuccessfulAuthentication(request, response, failed);
     }
 }
